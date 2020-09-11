@@ -6,22 +6,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-/*        CitiesRepo citiesRepo = new CitiesRepo();
-        List<CitiesRepo> citiesRepoList = citiesRepo.testSamples(10);
-        for (int i = 0; i <citiesRepoList.size()-1 ; i++) {
-            System.out.println(citiesRepoList.get(i).cities.toString());
+    // Minimal population is 10, split for testing is 2 or 3.
 
-        }
-        System.out.println(" ------------------------------------ ");
-        for (int j = 0; j <10 ; j++) {
-            mutation(citiesRepoList,2);
-            for (int i = 0; i <citiesRepoList.size()-1 ; i++) {
-                System.out.println(citiesRepoList.get(i).cities.toString());
-
-            }
-        }*/
-
-      travelingSalesmanProblem(10,100,2,2);
+      travelingSalesmanProblem(10,100,2,3);
 
     }
 
@@ -34,14 +21,14 @@ public class Main {
             double best = citiesRepoList.get(0).getRoute();
             for (int i = 0; i < iterations; i++) {
 
-                citiesRepoList.add(crossFunction(citiesRepoList, split));     //crossing gens function przy samej funkcji zaczyna w pewnym momencie kopiować to samo
+                citiesRepoList.add(crossFunction(citiesRepoList, split));     //crossing gens function
                 citiesRepoList.sort(CitiesRepo::compareTo);
                 citiesRepoList.remove(citiesRepoList.size() - 1);
                 if (best > citiesRepoList.get(0).getRoute()) {
                     best = citiesRepoList.get(0).getRoute();
                 }
 
-               /* mutation(citiesRepoList, mutation);  //przy mutacji zaczyna powtarzać wszystkie geny*/
+                mutation(citiesRepoList, mutation);  //przy mutacji zaczyna powtarzać wszystkie geny
                 System.out.println("Iteration number: "+i+" result:"+best);
                 for (int i1 = 0; i1 < citiesRepoList.size(); i1++) {
                     System.out.println(i1 + " sample: " + citiesRepoList.get(i1).getRoute() + "     CITIES LIST: " + citiesRepoList.get(i1).cities.toString());
@@ -57,14 +44,19 @@ public class Main {
         CitiesRepo mixedCitiesRepo = new CitiesRepo();  // new mixed repo
         LinkedHashSet<City> modifiedCitiesSet = new LinkedHashSet<>();
         LinkedList<City> mixedCityList;
-        while (modifiedCitiesSet.size() < citiesRepo.get(0).cities.size()){
+        while (modifiedCitiesSet.size() <citiesRepo.get(0).cities.size()){
+
+
         for (int i = 0; i < activeCitiesList.size(); i++) {
+            System.out.println(activeCitiesList.size());
             int gens = 0;
             int element = 0;
 
-
                 while (gens < split) {
                     if (element > citiesRepo.get(0).cities.size() - 1) {     //next list
+                        break;
+                    }
+                    if (modifiedCitiesSet.size() == citiesRepo.get(0).cities.size()){
                         break;
                     }
                     if (modifiedCitiesSet.add(citiesRepo.get(activeCitiesList.get(i)).cities.get(element))) {
@@ -98,8 +90,8 @@ public class Main {
         for (int i = 0; i <counter ; i++) {
             Random random = new Random();
             int a = random.nextInt(citiesRepo.size());    //generating random element to swap
-            System.out.println("In sample no "+a);
             citiesRepo.get(a).setCities(swap(citiesRepo.get(a).cities));
+
 
         }
 
@@ -118,7 +110,7 @@ public class Main {
             City tempBCity = new City(list.get(b).getName(),list.get(b).getCoordinateX(), list.get(b).getCoordinateY());
             list.set(a,tempBCity);
             list.set(b, tempACity);
-        System.out.println(tempACity.getName()+" chagne place with "+tempBCity.getName());
+
         return list;
     }
 
